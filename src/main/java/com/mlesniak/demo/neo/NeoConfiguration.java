@@ -1,13 +1,25 @@
 package com.mlesniak.demo.neo;
 
 import org.neo4j.ogm.session.SessionFactory;
-import org.springframework.data.neo4j.config.Neo4jConfiguration;
-import org.springframework.data.neo4j.repository.config.EnableNeo4jRepositories;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.data.neo4j.repository.config.EnableExperimentalNeo4jRepositories;
+import org.springframework.data.neo4j.transaction.Neo4jTransactionManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-@EnableNeo4jRepositories
-public class NeoConfiguration extends Neo4jConfiguration {
-  @Override
-  public SessionFactory getSessionFactory() {
+@Configuration
+@EnableTransactionManagement
+// Packages for repositories
+@EnableExperimentalNeo4jRepositories("com.mlesniak.demo.neo")
+public class NeoConfiguration {
+  @Bean
+  public SessionFactory sessionFactory() {
+    // Packages for entities
     return new SessionFactory("com.mlesniak.demo.neo");
+  }
+
+  @Bean
+  public Neo4jTransactionManager transactionManager() throws Exception {
+    return new Neo4jTransactionManager(sessionFactory());
   }
 }
