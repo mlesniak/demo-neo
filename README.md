@@ -5,4 +5,8 @@ Neo4j for large graphs.
 
 ## Preparations
 
-- [Download](https://neo4j.com/download/), install and start neo4j. 
+- [Download](https://neo4j.com/download/), install and start neo4j.
+ 
+## Scratchpad
+
+    match (node)--(source) where source.title = '4' return source,node
