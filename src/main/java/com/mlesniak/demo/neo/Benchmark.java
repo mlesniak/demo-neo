@@ -6,6 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.UUID;
 
 @Service
 public class Benchmark {
@@ -18,9 +21,17 @@ public class Benchmark {
   public void start() {
     LOG.info("Starting benchmark...");
 
-    LOG.info("Creating a single article.");
-    Article article = new Article();
-    article.setTitle("article");
-    repository.save(article);
+    int numArticles = 1_000;
+
+    LOG.info("Creating {} articles.", numArticles);
+    List<Article> articles = new LinkedList<>();
+    for (int i = 0; i < numArticles; i++) {
+      Article article = new Article();
+      article.setTitle(UUID.randomUUID().toString());
+      articles.add(article);
+    }
+    LOG.info("Persisting articles");
+    repository.save(articles);
+    LOG.info("Done / article creation");
   }
 }
