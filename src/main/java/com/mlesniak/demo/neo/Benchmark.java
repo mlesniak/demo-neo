@@ -18,33 +18,31 @@ public class Benchmark {
   @Autowired
   private ArticleRepository repository;
 
+  @Autowired
+  private BenchmarkConfiguration conf;
+
   @PostConstruct
   public void start() {
     LOG.info("Starting benchmark...");
 
-    // TODO ML Configurable
-    int numArticles = 1_000;
-    int numSources = 10;
-    boolean clean = true;
-
-    if (clean) {
+    if (conf.isClean()) {
       LOG.warn("Removing previous data");
       repository.deleteAll();
       LOG.info("Finished removing");
     }
 
-    LOG.info("Creating {} sources.", numSources);
+    LOG.info("Creating {} sources.", conf.getNumSources());
     List<Source> sources = new ArrayList<>();
-    for (int i = 0; i < numSources; i++) {
+    for (int i = 0; i < conf.getNumSources(); i++) {
       Source source = new Source();
       source.setTitle(Integer.toString(i));
       sources.add(source);
     }
     LOG.info("Done / source  creation");
 
-    LOG.info("Creating {} articles.", numArticles);
+    LOG.info("Creating {} articles.", conf.getNumArticles());
     List<Article> articles = new LinkedList<>();
-    for (int i = 0; i < numArticles; i++) {
+    for (int i = 0; i < conf.getNumArticles(); i++) {
       Article article = new Article();
       article.setTitle(UUID.randomUUID().toString());
       articles.add(article);

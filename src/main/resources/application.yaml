@@ -2,3 +2,7 @@ spring:
   main:
     banner-mode: "off"
     log-startup-info: false
+
+numArticles: 1000
+numSources: 10
+clean: true
