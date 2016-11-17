@@ -25,6 +25,13 @@ public class Benchmark {
     // TODO ML Configurable
     int numArticles = 1_000;
     int numSources = 10;
+    boolean clean = true;
+
+    if (clean) {
+      LOG.warn("Removing previous data");
+      repository.deleteAll();
+      LOG.info("Finished removing");
+    }
 
     LOG.info("Creating {} sources.", numSources);
     List<Source> sources = new ArrayList<>();
